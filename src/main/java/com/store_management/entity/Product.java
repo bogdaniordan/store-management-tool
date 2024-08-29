@@ -26,4 +26,7 @@ public class Product implements Serializable {
     private Double price;
 
     private Integer quantity;
+
+    @ManyToOne
+    private ProductCategory productCategory;
 }

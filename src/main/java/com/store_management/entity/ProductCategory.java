@@ -24,7 +24,7 @@ public class ProductCategory implements Serializable {
     private String name;
 
     @OneToMany
-    private List<Product> items = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     public ProductCategory(Long id, String name) {
         this.id = id;
