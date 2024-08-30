@@ -54,6 +54,10 @@ public class User implements Serializable, UserDetails {
         stores.add(store);
     }
 
+    public void removeStore(Store store) {
+        stores.remove(store);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

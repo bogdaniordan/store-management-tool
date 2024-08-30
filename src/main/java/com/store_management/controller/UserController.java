@@ -1,6 +1,8 @@
 package com.store_management.controller;
 
+import com.store_management.entity.Store;
 import com.store_management.entity.User;
+import com.store_management.service.StoreService;
 import com.store_management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -38,5 +40,15 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/add-store-to-user/{storeId}/{userId}")
+    public ResponseEntity<User> addStoreToUser(@PathVariable Long storeId, @PathVariable Long userId) {
+        return ResponseEntity.ok(userService.addStoreToUser(storeId, userId));
+    }
+
+    @PutMapping("/remove-store-from-user/{storeId}/{userId}")
+    public ResponseEntity<User> removeStoreFromUser(@PathVariable Long storeId, @PathVariable Long userId) {
+        return ResponseEntity.ok(userService.removeStoreFromUser(storeId, userId));
     }
 }

@@ -1,9 +1,11 @@
 package com.store_management.service;
 
+import com.store_management.entity.Store;
 import com.store_management.entity.User;
 import com.store_management.exception.ResourceNotFoundException;
-import com.store_management.exception.UserAlreadyExists;
-import com.store_management.exception.UserDoesNotExist;
+import com.store_management.exception.UserAlreadyExistsException;
+import com.store_management.exception.UserDoesNotExistException;
+import com.store_management.repository.StoreRepository;
 import com.store_management.repository.UserRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,18 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final StoreRepository storeRepository;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, StoreRepository storeRepository) {
         this.userRepository = userRepository;
+        this.storeRepository = storeRepository;
     }
 
     public User createUser(User user) {
         Optional<User> foundUser = userRepository.findById(user.getId());
         if (foundUser.isPresent()) {
-            throw new UserAlreadyExists("User with id " + user.getId() + " already exists");
+            throw new UserAlreadyExistsException("User with id " + user.getId() + " already exists");
         }
         User newUser = new User();
         String password = user.getPassword();
@@ -45,11 +50,11 @@ public class UserService {
         return userRepository.findById(id).map(existingUser -> {
             user.setId(id);
             return userRepository.save(user);
-        }).orElseThrow(() -> new UserDoesNotExist("User with id " + id + " does not exist"));
+        }).orElseThrow(() -> new UserDoesNotExistException("User with id " + id + " does not exist"));
     }
 
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserAlreadyExists("User with id " + id + " does not exist"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserAlreadyExistsException("User with id " + id + " does not exist"));
         userRepository.deleteById(id);
     }
 
@@ -58,5 +63,32 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Hibernate.initialize(user.getStores());
         return user;
+    }
+
+
+    public User addStoreToUser(Long userId, Long storeId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Hibernate.initialize(user.getStores());
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
+        Hibernate.initialize(store.getInventories());
+
+        user.addStore(store);
+        return userRepository.save(user);
+    }
+
+    public User removeStoreFromUser(Long userId, Long storeId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Hibernate.initialize(user.getStores());
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
+        Hibernate.initialize(store.getInventories());
+
+        user.removeStore(store);
+        return userRepository.save(user);
     }
 }

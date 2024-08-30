@@ -32,7 +32,7 @@ public class InventoryController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Inventory> updateInventory(@PathVariable Long id, Inventory inventory) {
+    public ResponseEntity<Inventory> updateInventory(@PathVariable Long id, @RequestBody Inventory inventory) {
         return ResponseEntity.ok(inventoryService.updateInventory(id, inventory));
     }
 

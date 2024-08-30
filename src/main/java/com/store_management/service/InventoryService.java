@@ -4,7 +4,7 @@ import com.store_management.dto.AddProductToInventoryDTO;
 import com.store_management.entity.Inventory;
 import com.store_management.entity.Product;
 import com.store_management.entity.Store;
-import com.store_management.exception.InventoryAlreadyExists;
+import com.store_management.exception.InventoryAlreadyExistsException;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.InventoryRepository;
 import com.store_management.repository.ProductRepository;
@@ -44,7 +44,7 @@ public class InventoryService {
     public Inventory updateInventory(Long id, Inventory inventory) {
         Optional<Inventory> foundInventory = inventoryRepository.findById(id);
         if (foundInventory.isPresent()) {
-            throw new InventoryAlreadyExists("Inventory already exists");
+            throw new InventoryAlreadyExistsException("Inventory already exists");
         }
         return inventoryRepository.save(inventory);
     }

@@ -9,6 +9,8 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StoreService {
 
@@ -22,16 +24,16 @@ public class StoreService {
         this.userRepository = userRepository;
     }
 
-    public User addStoreToUser(Long userId, Long storeId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Hibernate.initialize(user.getStores());
+    public Store getStoreById(Long id) {
+        return storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store with id " + id));
+    }
 
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
-        Hibernate.initialize(store.getInventories());
-
-        user.addStore(store);
-        return userRepository.save(user);
+    public Store updateStore(Long id, Store updatedStore) {
+        Optional<Store> store = storeRepository.findById(id);
+        if(store.isEmpty()) {
+            throw new ResourceNotFoundException("Could not find store with id " + id);
+        }
+        updatedStore.setId(id);
+        return storeRepository.save(updatedStore);
     }
 }
