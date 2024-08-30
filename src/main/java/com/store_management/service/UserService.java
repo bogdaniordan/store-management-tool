@@ -24,15 +24,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final StoreRepository storeRepository;
-
     @Autowired
-    public UserService(UserRepository userRepository, StoreRepository storeRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.storeRepository = storeRepository;
     }
 
-    public User registerUser(User user) {
+    public User createUser(User user) {
         Optional<User> foundUser = userRepository.findById(user.getId());
         if (foundUser.isPresent()) {
             throw new UserAlreadyExists("User with id " + user.getId() + " already exists");
@@ -66,18 +63,5 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Hibernate.initialize(user.getStores());
         return user;
-    }
-
-    public User addStoreToUser(Long userId, Long storeId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Hibernate.initialize(user.getStores());
-
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
-        Hibernate.initialize(store.getInventories());
-
-        user.addStore(store);
-        return userRepository.save(user);
     }
 }

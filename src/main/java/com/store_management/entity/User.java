@@ -1,13 +1,7 @@
 package com.store_management.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
@@ -22,19 +16,22 @@ import java.util.Set;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
 
     private String lastName;
 
+    @Column(unique = true)
+    @NonNull
     private String email;
-
+    @NonNull
     private String password;
 
-    @ManyToMany
-    Set<Role> roles = new HashSet<>();
+//    @Enumerated(EnumType.STRING)
+//    @NonNull
+//    private Role role;
 
     @ManyToMany
     private Set<Store> stores = new HashSet<>();
@@ -45,10 +42,7 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
-    }
-
-    public void addRole(Role role) {
-        roles.add(role);
+//        this.role = role;
     }
 
     public void addStore(Store store) {
