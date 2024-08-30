@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -19,4 +21,7 @@ public class Store implements Serializable {
     private String name;
 
     private String location;
+
+    @OneToMany
+    private Set<Inventory> inventories = new HashSet<>();
 }

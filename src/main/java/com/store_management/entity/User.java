@@ -36,6 +36,9 @@ public class User implements Serializable {
     @ManyToMany
     Set<Role> roles = new HashSet<>();
 
+    @ManyToMany
+    private Set<Store> stores = new HashSet<>();
+
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -46,5 +49,9 @@ public class User implements Serializable {
 
     public void addRole(Role role) {
         roles.add(role);
+    }
+
+    public void addStore(Store store) {
+        stores.add(store);
     }
 }
