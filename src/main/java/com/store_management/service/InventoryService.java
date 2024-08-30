@@ -1,5 +1,6 @@
 package com.store_management.service;
 
+import com.store_management.dto.AddProductToInventoryDTO;
 import com.store_management.entity.Inventory;
 import com.store_management.entity.Product;
 import com.store_management.entity.Store;
@@ -49,20 +50,20 @@ public class InventoryService {
     }
 
     @Transactional
-    public Inventory addProductToInventory(Long storeId, Long inventoryId, Long productId, int quantity) {
+    public Inventory addProductToInventory(AddProductToInventoryDTO addProductToInventoryDTO) {
         //todo refactor
-        Optional<Inventory> inventory = inventoryRepository.findById(inventoryId);
+        Optional<Inventory> inventory = inventoryRepository.findById(addProductToInventoryDTO.getInventoryId());
 
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new ResourceNotFoundException("Store not found"));
+        Store store = storeRepository.findById(addProductToInventoryDTO.getStoreId()).orElseThrow(() -> new ResourceNotFoundException("Store not found"));
         Hibernate.initialize(store.getInventories());
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        Product product = productRepository.findById(addProductToInventoryDTO.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         Inventory savedInventory = null;
         if (inventory.isEmpty()) {
-            savedInventory = new Inventory(store, product, quantity);
+            savedInventory = new Inventory(store, product, addProductToInventoryDTO.getCount());
         } else {
-            inventory.get().addProducts(quantity);
+            inventory.get().addProducts(addProductToInventoryDTO.getCount());
             savedInventory = inventory.get();
         }
 
