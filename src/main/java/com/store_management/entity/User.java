@@ -1,14 +1,17 @@
 package com.store_management.entity;
 
+import com.store_management.auth.Permission;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -34,20 +37,20 @@ public class User implements Serializable, UserDetails {
     @Transient
     private String password;
 
-//    @Enumerated(EnumType.STRING)
-//    @NonNull
-//    private Role role;
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    private Role.RoleType role;
 
     @ManyToMany
     private Set<Store> stores = new HashSet<>();
 
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email, String password, Role.RoleType role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
-//        this.role = role;
+        this.role = role;
     }
 
     public void addStore(Store store) {
@@ -60,7 +63,7 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override
