@@ -32,13 +32,12 @@ public class InventoryService {
         this.productRepository = productRepository;
     }
 
-    public Inventory getInventoryById(Long id) {
-        return inventoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find inventory"));
+    public List<Inventory> getInventoriesByStoreId(Long id) {
+        return storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store")).getInventories();
     }
 
-    public List<Inventory> getInventoriesByStoreId(Long id) {
-        Store store = storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store"));
-        return store.getInventories();
+    public Inventory getInventoryById(Long id) {
+        return inventoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find inventory"));
     }
 
     public Inventory updateInventory(Long id, Inventory inventory) {

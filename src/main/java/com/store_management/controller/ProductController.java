@@ -1,11 +1,10 @@
 package com.store_management.controller;
 
 import com.store_management.entity.Product;
-import com.store_management.service.CategoryService;
 import com.store_management.service.ProductService;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,36 +17,33 @@ public class ProductController {
 
     private final ProductService productService;
 
-    private final CategoryService categoryService;
-
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.categoryService = categoryService;
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.findProductById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findProductById(id));
     }
 
     @GetMapping("/category/{id}")
-    public List<Product> getProductsByCategoryId(@PathVariable Long id) {
-        return productService.findProductsByCategory(id);
+    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findProductsByCategory(id));
     }
 
     @PostMapping("/create")
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
     @PostMapping("/add-category-to-product/{productId}/{categoryId}")
-    public Product addCategoryToProduct(@PathVariable Long productId, @PathVariable Long categoryId) {
-        return productService.addProductToCategory(productId, categoryId);
+    public ResponseEntity<Product> addCategoryToProduct(@PathVariable Long productId, @PathVariable Long categoryId) {
+        return ResponseEntity.ok(productService.addProductToCategory(productId, categoryId));
     }
 
     @PutMapping("/update/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 }

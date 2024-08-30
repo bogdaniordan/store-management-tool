@@ -7,6 +7,7 @@ import com.store_management.repository.CategoryRepository;
 import com.store_management.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,9 +53,10 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    @Transactional
     public Product addProductToCategory(Long productId, Long categoryId) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with id " + productId));
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find category with id " + categoryId));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Could not find product with id " + productId));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Could not find category with id " + categoryId));
         category.addProduct(product);
         categoryRepository.save(category);
         return productRepository.save(product);
