@@ -19,9 +19,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
-        user.setPassword("");
-        return user;
+        return userService.getUserById(id);
     }
 
     @PostMapping("/create")

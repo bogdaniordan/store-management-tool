@@ -1,19 +1,14 @@
 package com.store_management.service;
 
-import com.store_management.entity.Role;
-import com.store_management.entity.Store;
 import com.store_management.entity.User;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.exception.UserAlreadyExists;
 import com.store_management.exception.UserDoesNotExist;
-import com.store_management.repository.StoreRepository;
 import com.store_management.repository.UserRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

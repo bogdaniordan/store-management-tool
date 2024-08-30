@@ -1,23 +1,26 @@
 package com.store_management.service;
 
+import com.store_management.entity.Category;
 import com.store_management.entity.Product;
 import com.store_management.exception.ResourceNotFoundException;
-import com.store_management.repository.ProductCategoryRepository;
+import com.store_management.repository.CategoryRepository;
 import com.store_management.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final ProductCategoryRepository productCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
-        this.productCategoryRepository = productCategoryRepository;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -25,8 +28,11 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with id " + id));
     }
 
+    public List<Product> findProductsByCategory(Long id) {
+        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find category")).getProducts();
+    }
 
-    public Product addProduct(Product product) {
+    public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -44,5 +50,13 @@ public class ProductService {
             throw new ResourceNotFoundException("Could not find product with id " + id);
         }
         productRepository.deleteById(id);
+    }
+
+    public Product addProductToCategory(Long productId, Long categoryId) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with id " + productId));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find category with id " + categoryId));
+        category.addProduct(product);
+        categoryRepository.save(category);
+        return productRepository.save(product);
     }
 }

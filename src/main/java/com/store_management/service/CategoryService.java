@@ -1,43 +1,43 @@
 package com.store_management.service;
 
-import com.store_management.entity.ProductCategory;
+import com.store_management.entity.Category;
 import com.store_management.exception.ResourceNotFoundException;
-import com.store_management.repository.ProductCategoryRepository;
+import com.store_management.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService {
 
-    private final ProductCategoryRepository productCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoryService(ProductCategoryRepository productCategoryRepository) {
-        this.productCategoryRepository = productCategoryRepository;
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
-    public ProductCategory getCategoryById(Long id) {
-        return productCategoryRepository.findById(id)
+    public Category getCategoryById(Long id) {
+        return categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product category not found for id " + id));
     }
 
-    public ProductCategory createCategory(ProductCategory itemCategory) {
-        return productCategoryRepository.save(itemCategory);
+    public Category createCategory(Category itemCategory) {
+        return categoryRepository.save(itemCategory);
     }
 
 
-    public ProductCategory updateCategory(Long categoryId, ProductCategory productCategory) throws ResourceNotFoundException {
-        if (productCategoryRepository.existsById(categoryId)) {
-            productCategory.setId(categoryId);
-            return productCategoryRepository.save(productCategory);
+    public Category updateCategory(Long categoryId, Category category) throws ResourceNotFoundException {
+        if (categoryRepository.existsById(categoryId)) {
+            category.setId(categoryId);
+            return categoryRepository.save(category);
         } else {
             throw new ResourceNotFoundException("ItemCategory not found");
         }
     }
 
     public void deleteCategory(Long id) throws ResourceNotFoundException {
-        if (productCategoryRepository.existsById(id)) {
-            productCategoryRepository.deleteById(id);
+        if (categoryRepository.existsById(id)) {
+            categoryRepository.deleteById(id);
         } else {
             throw new ResourceNotFoundException("Product category not found");
         }

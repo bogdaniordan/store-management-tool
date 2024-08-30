@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class ProductCategory implements Serializable {
+public class Category implements Serializable {
 
     @Id
     @GeneratedValue
@@ -26,8 +26,12 @@ public class ProductCategory implements Serializable {
     @OneToMany
     private List<Product> products = new ArrayList<>();
 
-    public ProductCategory(Long id, String name) {
+    public Category(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
     }
 }
