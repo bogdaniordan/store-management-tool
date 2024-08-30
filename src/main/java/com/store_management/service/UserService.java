@@ -5,6 +5,7 @@ import com.store_management.entity.Store;
 import com.store_management.entity.User;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.exception.UserAlreadyExists;
+import com.store_management.exception.UserDoesNotExist;
 import com.store_management.repository.StoreRepository;
 import com.store_management.repository.UserRepository;
 import org.hibernate.Hibernate;
@@ -39,15 +40,20 @@ public class UserService {
         User newUser = new User();
         String password = user.getPassword();
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
-        //todo role addition
         return userRepository.save(user);
     }
 
 
-    public User updateUserRole(Long id, Role role) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserAlreadyExists("User with id " + id + " does not exist"));
-        user.addRole(role);
-        return userRepository.save(user);
+//    public User updateUserRole(Long id, Role role) {
+//        User user = userRepository.findById(id).orElseThrow(() -> new UserAlreadyExists("User with id " + id + " does not exist"));
+//        user.addRole(role);
+//        return userRepository.save(user);
+//    }
+    public User updateUser(Long id, User user) throws ResourceNotFoundException {
+        return userRepository.findById(id).map(existingUser -> {
+            user.setId(id);
+            return userRepository.save(user);
+        }).orElseThrow(() -> new UserDoesNotExist("User with id " + id + " does not exist"));
     }
 
     public void deleteUser(Long id) {
@@ -55,7 +61,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    //todo add more descriptiove exception messages
+    //todo add more description exception messages
     public User getUserById(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Hibernate.initialize(user.getStores());
