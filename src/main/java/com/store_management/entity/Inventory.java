@@ -1,6 +1,7 @@
 package com.store_management.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Inventory implements Serializable {
     @ManyToOne
     private Product product;
 
+    @Positive
     private Integer quantity;
 
     public Inventory(Store store, Product product, Integer quantity) {

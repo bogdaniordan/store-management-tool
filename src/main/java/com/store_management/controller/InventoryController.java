@@ -23,13 +23,13 @@ public class InventoryController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public ResponseEntity<Inventory> getInventoryById(@PathVariable Long id) {
         return ResponseEntity.ok(inventoryService.getInventoryById(id));
     }
 
     @GetMapping("/store/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public ResponseEntity<List<Inventory>> getInventoriesByStoreId(@PathVariable Long id) {
         return ResponseEntity.ok(inventoryService.getInventoriesByStoreId(id));
     }

@@ -2,6 +2,7 @@ package com.store_management.entity;
 
 import com.store_management.auth.Permission;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +23,6 @@ import java.util.Set;
 @Table(name = "_users")
 public class User implements Serializable, UserDetails {
 
-    //todo add more validatiors ex password length
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -37,6 +37,7 @@ public class User implements Serializable, UserDetails {
     private String email;
 
     @NonNull
+    @Size(min = 3, max = 15)
     private String password;
 
     @Enumerated(EnumType.STRING)

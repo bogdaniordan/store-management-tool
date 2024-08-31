@@ -47,7 +47,7 @@ public class Role implements GrantedAuthority, Serializable {
     @Getter
     @RequiredArgsConstructor
     public enum RoleType {
-        ADMIN(Set.of(Permission.STORE_CREATE, Permission.STORE_UPDATE, Permission.STORE_DELETE, Permission.USER_MANAGE)),
+        ADMIN(Set.of(Permission.ROLE_MANAGE, Permission.STORE_MANAGE, Permission.USER_MANAGE)),
         EMPLOYEE(Set.of(Permission.INVENTORY_CREATE, Permission.INVENTORY_UPDATE, Permission.INVENTORY_DELETE, Permission.PRODUCT_CREATE, Permission.PRODUCT_UPDATE, Permission.PRODUCT_DELETE));
 
         private final Set<Permission> permissions;

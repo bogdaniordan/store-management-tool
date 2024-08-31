@@ -8,9 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum Permission {
 
     //ADMIN
-    STORE_CREATE("store:create"),
-    STORE_UPDATE("store:update"),
-    STORE_DELETE("store:delete"),
+    ROLE_MANAGE("role:manage"),
+    STORE_MANAGE("store:manage"),
     USER_MANAGE("user:manage"),
 
     //EMPLOYEE

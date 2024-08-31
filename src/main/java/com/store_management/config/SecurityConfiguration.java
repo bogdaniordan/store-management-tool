@@ -1,7 +1,6 @@
 package com.store_management.config;
 
 import com.store_management.auth.JwtAuthenticationFilter;
-import com.store_management.auth.Permission;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -30,9 +29,8 @@ public class SecurityConfiguration {
     }
 
     private final String[] ADMIN_PERMISSIONS = new String[] {
-            STORE_CREATE.getPermission(),
-            STORE_UPDATE.getPermission(),
-            STORE_DELETE.getPermission(),
+            ROLE_MANAGE.getPermission(),
+            STORE_MANAGE.getPermission(),
             USER_MANAGE.getPermission()
     };
 

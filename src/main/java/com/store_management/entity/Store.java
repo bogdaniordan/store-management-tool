@@ -1,6 +1,7 @@
 package com.store_management.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,9 +23,11 @@ public class Store implements Serializable {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @Size(min = 3, max = 15)
     private String name;
 
     @Column(nullable = false)
+    @Size(min = 5, max = 15)
     private String location;
 
     @OneToMany
