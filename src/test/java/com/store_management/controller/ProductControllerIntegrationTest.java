@@ -1,12 +1,11 @@
 package com.store_management.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.store_management.entity.Category;
 import com.store_management.entity.Product;
 import com.store_management.service.ProductService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -30,16 +28,59 @@ public class ProductControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private ProductService productService;
 
+    private final Product product = new Product(1L, "Lego", "Kids building toy", 22.0, 1, null);
+
     @Test
     public void test_get_product_by_id() throws Exception {
-        long productId = 1L;
-        Mockito.when(productService.findProductById(any())).thenReturn(new Product(productId, "Lego", "Kids building toy", 22.0, 1, null));
+        Mockito.when(productService.findProductById(any())).thenReturn(product);
 
-        ResultActions result = mockMvc.perform(get("/api/v1/products/{id}", productId));
+        ResultActions result = mockMvc.perform(get("/api/v1/products/{id}", product.getId()));
         result.andExpect(status().isOk())
-              .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+              .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+              .andExpect(jsonPath("$.name").value("Lego"));
+    }
+
+    @Test
+    public void test_create_product() throws Exception {
+        Mockito.when(productService.createProduct(any())).thenReturn(product);
+
+        ResultActions result = mockMvc.perform(
+                        post("/api/v1/products/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(product)));
+        result.andExpect(status().isCreated());
+    }
+
+    @Test
+    public void test_update_product() throws Exception {
+        Mockito.when(productService.updateProduct(any(), any())).thenReturn(product);
+
+        ResultActions result = mockMvc.perform(
+                put("/api/v1/products/update/{id}", product.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(product)));
+        result.andExpect(status().isOk())
+               .andExpect(jsonPath("$.id").value(product.getId()))
+               .andExpect(jsonPath("$.name").value(product.getName()));
+    }
+
+    @Test
+    public void test_add_category_to_product() throws Exception {
+        product.setCategory(new Category(2L, "Toys", null));
+        Mockito.when(productService.addProductToCategory(any(), any())).thenReturn(product);
+
+        ResultActions result = mockMvc.perform(
+                put("/api/v1/products/add-category-to-product/{productId}/{categoryId}", product.getId(), 2L)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(product.getId()))
+                .andExpect(jsonPath("$.category").value(product.getCategory()));
     }
 }

@@ -1,13 +1,10 @@
 package com.store_management.controller;
 
-import com.store_management.entity.Store;
 import com.store_management.entity.User;
-import com.store_management.service.StoreService;
 import com.store_management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

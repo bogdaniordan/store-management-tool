@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping(path = "/api/v1/products")
 public class ProductController {
 
     //todo add DTOs
@@ -37,7 +37,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
-    @PostMapping("/add-category-to-product/{productId}/{categoryId}")
+    @PutMapping("/add-category-to-product/{productId}/{categoryId}")
     public ResponseEntity<Product> addCategoryToProduct(@PathVariable Long productId, @PathVariable Long categoryId) {
         return ResponseEntity.ok(productService.addProductToCategory(productId, categoryId));
     }
