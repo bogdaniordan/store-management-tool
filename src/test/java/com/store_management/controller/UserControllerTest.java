@@ -21,7 +21,7 @@ import java.util.HashSet;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -45,7 +45,6 @@ public class UserControllerTest {
         Mockito.reset(userService);
     }
 
-
     @Test
     @WithMockUser(authorities = "user:manage")
     public void test_get_user_by_id() throws Exception {
@@ -56,6 +55,37 @@ public class UserControllerTest {
         //assert
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.firstName").value("Cole"))
+                .andExpect(jsonPath("$.email").value("cole.palmer@gmail.com"))
+                .andExpect(authenticated());
+    }
+
+    @Test
+    @WithMockUser(authorities = "user:manage")
+    public void test_create_user() throws Exception {
+        //arrange & act
+        Mockito.when(userService.createUser(any())).thenReturn(user);
+        ResultActions result = mockMvc.perform(post("/api/v1/users/create")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(objectMapper.writeValueAsString(user)));
+
+        //assert
+        result.andExpect(status().isCreated())
+                .andExpect(authenticated());
+    }
+
+    @Test
+    @WithMockUser(authorities = "user:manage")
+    public void test_update_user() throws Exception {
+        //arrange & act
+        Mockito.when(userService.updateUser(any(), any())).thenReturn(user);
+        ResultActions result = mockMvc.perform(
+                put("/api/v1/users/update/{id}", user.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)));
+
+        //assert
+        result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("Cole"))
                 .andExpect(jsonPath("$.email").value("cole.palmer@gmail.com"))
                 .andExpect(authenticated());
