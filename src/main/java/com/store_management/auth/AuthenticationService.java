@@ -4,8 +4,11 @@ import com.store_management.dto.AuthenticationRequestDTO;
 import com.store_management.dto.AuthenticationResponseDTO;
 import com.store_management.dto.RegisterRequestDTO;
 import com.store_management.entity.User;
+import com.store_management.exception.GlobalExceptionHandler;
 import com.store_management.exception.UserDoesNotExistException;
 import com.store_management.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +19,8 @@ import java.util.Optional;
 
 @Service
 public class AuthenticationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private final UserRepository userRepository;
 
@@ -41,7 +46,9 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        logger.info("User with id " + user.getId() + " has been saved.");
+        return savedUser;
     }
 
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO authenticationRequestDTO) {
@@ -55,7 +62,9 @@ public class AuthenticationService {
         if (user.isEmpty()) {
             throw new UserDoesNotExistException("Could not find user with email " + authenticationRequestDTO.getEmail());
         }
+        logger.info("User has been authenticated.");
         String jwtToken = jwtService.generateToken(user.get());
+        logger.info("JWT token has been generated on authentication.");
         return new AuthenticationResponseDTO(jwtToken);
     }
 }
