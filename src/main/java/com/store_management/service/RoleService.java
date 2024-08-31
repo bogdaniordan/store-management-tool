@@ -5,9 +5,6 @@ import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class RoleService {
 
@@ -30,12 +27,5 @@ public class RoleService {
             return roleRepository.save(role);
         }
         throw new ResourceNotFoundException("Could not find role");
-    }
-
-    public void deleteRole(Long id) throws Exception {
-        if (roleRepository.existsById(id)) {
-            roleRepository.deleteById(id);
-        }
-        throw new ResourceNotFoundException("Role not found");
     }
 }

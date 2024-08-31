@@ -25,6 +25,7 @@ public class User implements Serializable, UserDetails {
     @Id
     private Long id;
 
+    @NonNull
     private String firstName;
 
     private String lastName;
@@ -43,7 +44,6 @@ public class User implements Serializable, UserDetails {
 
     @ManyToMany
     private Set<Store> stores = new HashSet<>();
-
 
     public User(String firstName, String lastName, String email, String password, Role.RoleType role) {
         this.firstName = firstName;
