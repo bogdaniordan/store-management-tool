@@ -10,9 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class RegisterRequestDTO {
 
-    private String firstname;
+    private String firstName;
 
-    private String lastname;
+    private String lastName;
 
     private String email;
 

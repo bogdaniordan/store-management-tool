@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class Role implements GrantedAuthority, Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true)

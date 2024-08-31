@@ -22,7 +22,9 @@ import java.util.Set;
 @Table(name = "_users")
 public class User implements Serializable, UserDetails {
 
+    //todo add more validatiors ex password length
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NonNull
@@ -35,7 +37,6 @@ public class User implements Serializable, UserDetails {
     private String email;
 
     @NonNull
-    @Transient
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -69,6 +70,11 @@ public class User implements Serializable, UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

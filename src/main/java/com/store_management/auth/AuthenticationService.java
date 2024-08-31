@@ -35,8 +35,8 @@ public class AuthenticationService {
 
     public User registerUser(RegisterRequestDTO request) {
         User user = User.builder()
-                .firstName(request.getFirstname())
-                .lastName(request.getLastname())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
@@ -45,16 +45,16 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO authenticationRequestDTO) {
-        Optional<User> user = userRepository.findByEmail(authenticationRequestDTO.getEmail());
-        if (user.isEmpty()) {
-            throw new UserDoesNotExistException("Could not find user with email " + authenticationRequestDTO.getEmail());
-        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequestDTO.getEmail(),
                         authenticationRequestDTO.getPassword()
                 )
         );
+        Optional<User> user = userRepository.findByEmail(authenticationRequestDTO.getEmail());
+        if (user.isEmpty()) {
+            throw new UserDoesNotExistException("Could not find user with email " + authenticationRequestDTO.getEmail());
+        }
         String jwtToken = jwtService.generateToken(user.get());
         return new AuthenticationResponseDTO(jwtToken);
     }

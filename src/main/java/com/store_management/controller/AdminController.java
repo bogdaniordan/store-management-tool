@@ -30,7 +30,7 @@ public class AdminController {
         return ResponseEntity.ok(storeService.getStoreById(id));
     }
 
-    @GetMapping("/create-store")
+    @PostMapping("/create-store")
     public ResponseEntity<Store> createStore(@RequestBody Store store) {
         return new ResponseEntity<>(storeService.createStore(store), HttpStatus.CREATED);
     }
