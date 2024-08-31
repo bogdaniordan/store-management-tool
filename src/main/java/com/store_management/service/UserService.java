@@ -42,12 +42,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
-//    public User updateUserRole(Long id, Role role) {
-//        User user = userRepository.findById(id).orElseThrow(() -> new UserAlreadyExists("User with id " + id + " does not exist"));
-//        user.addRole(role);
-//        return userRepository.save(user);
-//    }
     public User updateUser(Long id, User user) throws ResourceNotFoundException {
         return userRepository.findById(id).map(existingUser -> {
             user.setId(id);
@@ -56,7 +50,10 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserAlreadyExistsException("User with id " + id + " does not exist"));
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            throw new UserAlreadyExistsException("User with id " + id + " does not exist");
+        }
         userRepository.deleteById(id);
     }
 

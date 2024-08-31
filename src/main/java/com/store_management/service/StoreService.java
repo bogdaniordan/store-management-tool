@@ -3,6 +3,7 @@ package com.store_management.service;
 import com.store_management.entity.Store;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.StoreRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,9 @@ public class StoreService {
     }
 
     public Store getStoreById(Long id) {
-        return storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store with id " + id));
+        Store store = storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store with id " + id));
+        Hibernate.initialize(store.getInventories());
+        return store;
     }
 
     public Store createStore(Store store) {

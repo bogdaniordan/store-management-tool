@@ -21,15 +21,11 @@ public class Category implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @OneToMany
     private List<Product> products = new ArrayList<>();
-
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public void addProduct(Product product) {
         products.add(product);
