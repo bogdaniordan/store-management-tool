@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleUserDoesNotExistException(UserDoesNotExistException e) {
         logger.error("User does not exist exception: " + e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    ResponseEntity<Object> handleAuthorizationDeniedException(AuthorizationDeniedException e) {
+        logger.error("Authorization denied exception: " + e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = Exception.class)

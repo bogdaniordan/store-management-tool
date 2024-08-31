@@ -12,10 +12,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -43,6 +45,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "EMPLOYEE")
     public void test_get_product_by_id() throws Exception {
         //arrange & act
         Mockito.when(productService.getProductById(any())).thenReturn(product);
@@ -51,10 +54,12 @@ public class ProductControllerTest {
         //assert
         result.andExpect(status().isOk())
               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-              .andExpect(jsonPath("$.name").value("Lego"));
+              .andExpect(jsonPath("$.name").value("Lego"))
+              .andExpect(authenticated());
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void test_create_product() throws Exception {
         //arrange & act
         Mockito.when(productService.createProduct(any())).thenReturn(product);
@@ -64,10 +69,26 @@ public class ProductControllerTest {
                         .content(objectMapper.writeValueAsString(product)));
 
         //assert
-        result.andExpect(status().isCreated());
+        result.andExpect(status().isCreated())
+              .andExpect(authenticated());
     }
 
     @Test
+    @WithMockUser(roles = "EMPLOYEE")
+    public void test_create_product_without_permission() throws Exception {
+        //arrange & act
+        Mockito.when(productService.createProduct(any())).thenReturn(product);
+        ResultActions result = mockMvc.perform(
+                post("/api/v1/products/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(product)));
+
+        //assert
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "EMPLOYEE")
     public void test_update_product() throws Exception {
         //arrange & act
         Mockito.when(productService.updateProduct(any(), any())).thenReturn(product);
@@ -78,11 +99,13 @@ public class ProductControllerTest {
 
         //assert
         result.andExpect(status().isOk())
-               .andExpect(jsonPath("$.id").value(product.getId()))
-               .andExpect(jsonPath("$.name").value(product.getName()));
+              .andExpect(jsonPath("$.id").value(product.getId()))
+              .andExpect(jsonPath("$.name").value(product.getName()))
+              .andExpect(authenticated());
     }
 
     @Test
+    @WithMockUser(roles = "EMPLOYEE")
     public void test_add_category_to_product() throws Exception {
         //arrange
         product.setCategory(new Category(2L, "Toys", null));
@@ -96,6 +119,7 @@ public class ProductControllerTest {
         //assert
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(product.getId()))
-                .andExpect(jsonPath("$.category").value(product.getCategory()));
+                .andExpect(jsonPath("$.category").value(product.getCategory()))
+                .andExpect(authenticated());
     }
 }
