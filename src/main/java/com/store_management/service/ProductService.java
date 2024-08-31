@@ -25,11 +25,11 @@ public class ProductService {
     }
 
 
-    public Product findProductById(Long id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find product with id " + id));
     }
 
-    public List<Product> findProductsByCategory(Long id) {
+    public List<Product> getProductsByCategoryId(Long id) {
         return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find category")).getProducts();
     }
 
@@ -37,7 +37,6 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    //todo add maybe constant for exception
     public Product updateProduct(Long id, Product product) {
         if (!productRepository.existsById(id)) {
             throw new ResourceNotFoundException("Could not find product with id " + id);
