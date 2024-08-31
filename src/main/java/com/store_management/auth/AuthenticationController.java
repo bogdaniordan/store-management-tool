@@ -1,5 +1,7 @@
 package com.store_management.auth;
 
+import com.store_management.dto.AuthenticationRequestDTO;
+import com.store_management.dto.AuthenticationResponseDTO;
 import com.store_management.dto.RegisterRequestDTO;
 import com.store_management.entity.User;
 import org.springframework.http.HttpStatus;
@@ -23,5 +25,10 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
         return new ResponseEntity<>(authenticationService.registerUser(registerRequestDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody AuthenticationRequestDTO request) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }

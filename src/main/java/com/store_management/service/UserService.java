@@ -30,6 +30,12 @@ public class UserService {
         this.storeRepository = storeRepository;
     }
 
+    public User getUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Hibernate.initialize(user.getStores());
+        return user;
+    }
+
     public User createUser(User user) {
         Optional<User> foundUser = userRepository.findById(user.getId());
         if (foundUser.isPresent()) {
@@ -56,14 +62,6 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
-
-    //todo add more description exception messages
-    public User getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        Hibernate.initialize(user.getStores());
-        return user;
-    }
-
 
     public User addStoreToUser(Long userId, Long storeId) {
         User user = userRepository.findById(userId)
