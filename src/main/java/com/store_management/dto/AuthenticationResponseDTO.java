@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RegisterResponseDTO {
+public class AuthenticationResponseDTO {
 
     @JsonProperty("token")
     private String token;
