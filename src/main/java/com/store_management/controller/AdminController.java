@@ -1,8 +1,6 @@
 package com.store_management.controller;
 
-import com.store_management.entity.Role;
 import com.store_management.entity.Store;
-import com.store_management.service.RoleService;
 import com.store_management.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +13,9 @@ public class AdminController {
 
     private final StoreService storeService;
 
-    private final RoleService roleService;
-
     @Autowired
-    public AdminController(StoreService storeService, RoleService roleService) {
+    public AdminController(StoreService storeService) {
         this.storeService = storeService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/get-store/{id}")
@@ -36,20 +31,5 @@ public class AdminController {
     @PutMapping("/update-store/{id}")
     public ResponseEntity<Store> updateStore(@PathVariable Long id, @RequestBody Store store) {
         return ResponseEntity.ok(storeService.updateStore(id, store));
-    }
-
-    @GetMapping("/get-role/{id}")
-    public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
-        return ResponseEntity.ok(roleService.getRoleById(id));
-    }
-
-    @PostMapping("/create-role")
-    public ResponseEntity<Role> createRole(@RequestBody Role role) {
-        return new ResponseEntity<>(roleService.createRole(role), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/update-role/{id}")
-    public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody Role role) {
-        return ResponseEntity.ok(roleService.updateRole(id, role));
     }
 }

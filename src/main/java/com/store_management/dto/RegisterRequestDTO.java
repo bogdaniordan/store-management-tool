@@ -1,6 +1,6 @@
 package com.store_management.dto;
 
-import com.store_management.entity.Role;
+import com.store_management.auth.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +18,5 @@ public class RegisterRequestDTO {
 
     private String password;
 
-    private Role.RoleType role;
+    private Role role;
 }

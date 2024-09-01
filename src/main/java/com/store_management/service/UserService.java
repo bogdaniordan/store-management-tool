@@ -1,6 +1,5 @@
 package com.store_management.service;
 
-import com.store_management.entity.Role;
 import com.store_management.entity.Store;
 import com.store_management.entity.User;
 import com.store_management.exception.ResourceNotFoundException;
@@ -14,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static com.store_management.auth.Role.EMPLOYEE;
 
 @Service
 public class UserService {
@@ -44,7 +45,7 @@ public class UserService {
         User newUser = new User();
         String password = user.getPassword();
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
-        user.setRole(Role.RoleType.EMPLOYEE);
+        user.setRole(EMPLOYEE);
         return userRepository.save(user);
     }
 
