@@ -14,6 +14,7 @@ public enum Role {
     ADMIN(
             Set.of(Permission.STORE_MANAGE,
                     Permission.USER_MANAGE,
+                    Permission.CATEGORY_MANAGE,
                     Permission.INVENTORY_CREATE,
                     Permission.INVENTORY_UPDATE,
                     Permission.INVENTORY_DELETE,
@@ -22,7 +23,9 @@ public enum Role {
                     Permission.PRODUCT_DELETE)
     ),
     MANAGER(
-            Set.of(Permission.INVENTORY_CREATE,
+            Set.of(
+                    Permission.CATEGORY_MANAGE,
+                    Permission.INVENTORY_CREATE,
                     Permission.INVENTORY_UPDATE,
                     Permission.INVENTORY_DELETE,
                     Permission.PRODUCT_CREATE,
@@ -30,7 +33,9 @@ public enum Role {
                     Permission.PRODUCT_DELETE)
     ),
     EMPLOYEE(
-            Set.of(Permission.PRODUCT_CREATE,
+            Set.of(
+                    Permission.CATEGORY_MANAGE,
+                    Permission.PRODUCT_CREATE,
                     Permission.PRODUCT_UPDATE,
                     Permission.PRODUCT_DELETE
             )

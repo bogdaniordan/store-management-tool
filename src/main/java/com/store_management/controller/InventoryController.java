@@ -4,7 +4,6 @@ import com.store_management.dto.AddProductToInventoryDTO;
 import com.store_management.entity.Inventory;
 import com.store_management.service.InventoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,6 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    @Autowired
     public InventoryController(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
     }

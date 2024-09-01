@@ -9,7 +9,6 @@ import com.store_management.exception.UserDoesNotExistException;
 import com.store_management.repository.StoreRepository;
 import com.store_management.repository.UserRepository;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +19,10 @@ import static com.store_management.auth.Role.EMPLOYEE;
 @Service
 public class UserService {
 
-    //todo add loggers and @valid to payload
-
     private final UserRepository userRepository;
 
     private final StoreRepository storeRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository, StoreRepository storeRepository) {
         this.userRepository = userRepository;
         this.storeRepository = storeRepository;

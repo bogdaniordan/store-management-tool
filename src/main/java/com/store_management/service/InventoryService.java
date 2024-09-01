@@ -10,7 +10,6 @@ import com.store_management.repository.InventoryRepository;
 import com.store_management.repository.ProductRepository;
 import com.store_management.repository.StoreRepository;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,6 @@ public class InventoryService {
 
     private final ProductRepository productRepository;
 
-    @Autowired
     public InventoryService(InventoryRepository inventoryRepository, StoreRepository storeRepository, ProductRepository productRepository) {
         this.inventoryRepository = inventoryRepository;
         this.storeRepository = storeRepository;
@@ -59,7 +57,7 @@ public class InventoryService {
 
         Product product = productRepository.findById(addProductToInventoryDTO.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        Inventory savedInventory = null;
+        Inventory savedInventory;
         if (inventory.isEmpty()) {
             savedInventory = new Inventory(store, product, addProductToInventoryDTO.getCount());
         } else {

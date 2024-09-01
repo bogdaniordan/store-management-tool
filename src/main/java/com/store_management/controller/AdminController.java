@@ -7,7 +7,6 @@ import com.store_management.entity.User;
 import com.store_management.service.CategoryService;
 import com.store_management.service.StoreService;
 import com.store_management.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ public class AdminController {
 
     private final CategoryService categoryService;
 
-    @Autowired
     public AdminController(StoreService storeService, UserService userService, CategoryService categoryService) {
         this.storeService = storeService;
         this.userService = userService;

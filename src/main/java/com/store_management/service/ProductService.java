@@ -5,7 +5,6 @@ import com.store_management.entity.Product;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.CategoryRepository;
 import com.store_management.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,6 @@ public class ProductService {
 
     private final CategoryRepository categoryRepository;
 
-    @Autowired
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;

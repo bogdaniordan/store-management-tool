@@ -9,6 +9,7 @@ public enum Permission {
 
     STORE_MANAGE("store:manage"),
     USER_MANAGE("user:manage"),
+    CATEGORY_MANAGE("category:manage"),
     INVENTORY_CREATE("inventory:create"),
     INVENTORY_UPDATE("inventory:update"),
     INVENTORY_DELETE("inventory:delete"),

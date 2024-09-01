@@ -3,7 +3,6 @@ package com.store_management.service;
 import com.store_management.entity.Category;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +10,6 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @Autowired
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }

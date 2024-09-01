@@ -2,7 +2,8 @@
 
 ## Overview
 
-The store management tool is an API which supports CRUD mainly operations where store products and inventories can be managed by various users.
+The store management tool is an API which mainly supports CRUD operations where store products and inventories can be managed by various users.
+The API also offers authentication and authorization mechanisms.
 
 ## Technology Stack
 
@@ -27,7 +28,7 @@ The store management tool is an API which supports CRUD mainly operations where 
 - **Store manage:** Admin users can create and manage stores by assigning them to different users.
 - **Product and category creation:** Admin and manager users can manage products and categories.
 - **Users manage:** Users can be created an managed by users with Admin role.
-- **Authentication and authorization:** Users can register and then authenticate. Endpoints authorize their requests based on roles and permissions
+- **Authentication and authorization:** Users can register and authenticate. REST endpoints authorize the requests based on roles and permissions.
 
 ## User roles
 
