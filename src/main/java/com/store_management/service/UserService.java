@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.store_management.auth.Role.ADMIN;
 import static com.store_management.auth.Role.EMPLOYEE;
 
 @Service
@@ -29,7 +30,7 @@ public class UserService {
     }
 
     public User getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
         Hibernate.initialize(user.getStores());
         return user;
     }
@@ -37,7 +38,7 @@ public class UserService {
     public User createUser(User user) {
         Optional<User> foundUser = userRepository.findById(user.getId());
         if (foundUser.isPresent()) {
-            throw new UserAlreadyExistsException("User with id " + user.getId() + " already exists");
+            throw new UserAlreadyExistsException(String.format("User with id %s already exists", user.getId()));
         }
         User newUser = new User();
         String password = user.getPassword();
@@ -49,7 +50,7 @@ public class UserService {
     public User updateUser(Long id, User user) throws ResourceNotFoundException {
         Optional<User> foundUser = userRepository.findById(user.getId());
         if (foundUser.isEmpty()) {
-            throw new UserDoesNotExistException("User does not exist with id " + id);
+            throw new UserDoesNotExistException(String.format("User with id %s does not exist", id));
         }
         user.setId(id);
         return userRepository.save(user);
@@ -57,14 +58,14 @@ public class UserService {
 
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new UserAlreadyExistsException("User with id " + id + " does not exist");
+            throw new UserDoesNotExistException(String.format("User with id %s does not exist", id));
         }
         userRepository.deleteById(id);
     }
 
     public User addStoreToUser(Long userId, Long storeId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
         Hibernate.initialize(user.getStores());
 
         Store store = storeRepository.findById(storeId)
@@ -77,11 +78,11 @@ public class UserService {
 
     public User removeStoreFromUser(Long userId, Long storeId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
         Hibernate.initialize(user.getStores());
 
         Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Store with id %s does not exist", storeId)));
         Hibernate.initialize(store.getInventories());
 
         user.removeStore(store);
@@ -91,9 +92,8 @@ public class UserService {
 
     public User updateEmployeeSalary(Long userId, UpdateSalaryDTO updateSalaryDTO) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        //todo add proper exception
-        if (user.getRole() != EMPLOYEE) {
+                .orElseThrow(() -> new UserDoesNotExistException(String.format("User with id %s does not exist", userId)));
+        if (user.getRole() == ADMIN) {
            throw new IllegalArgumentException("Cannot update ADMIN salary");
         }
         user.setSalary(updateSalaryDTO.getSalary());

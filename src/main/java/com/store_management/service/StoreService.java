@@ -20,7 +20,7 @@ public class StoreService {
     }
 
     public Store getStoreById(Long id) {
-        Store store = storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store with id " + id));
+        Store store = storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Store with id %s does not exist", id)));
         Hibernate.initialize(store.getInventories());
         return store;
     }
@@ -32,7 +32,7 @@ public class StoreService {
     public Store updateStore(Long id, Store updatedStore) {
         Optional<Store> store = storeRepository.findById(id);
         if(store.isEmpty()) {
-            throw new ResourceNotFoundException("Could not find store with id " + id);
+            throw new ResourceNotFoundException(String.format("Store with id %s does not exist", id));
         }
         updatedStore.setId(id);
         return storeRepository.save(updatedStore);

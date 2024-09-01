@@ -11,7 +11,6 @@ import com.store_management.repository.ProductRepository;
 import com.store_management.repository.StoreRepository;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,30 +31,30 @@ public class InventoryService {
     }
 
     public List<Inventory> getInventoriesByStoreId(Long id) {
-        return storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find store")).getInventories();
+        return storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Store with id %s does not exist", id))).getInventories();
     }
 
     public Inventory getInventoryById(Long id) {
-        return inventoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find inventory"));
+        return inventoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Inventory with id %s does not exist", id)));
     }
 
     public Inventory updateInventory(Long id, Inventory inventory) {
         Optional<Inventory> foundInventory = inventoryRepository.findById(id);
         if (foundInventory.isPresent()) {
-            throw new InventoryAlreadyExistsException("Inventory already exists");
+            throw new InventoryAlreadyExistsException(String.format("Inventory with id %s already exists", id));
         }
         return inventoryRepository.save(inventory);
     }
 
-    @Transactional
     public Inventory addProductToInventory(AddProductToInventoryDTO addProductToInventoryDTO) {
-        //todo refactor
         Optional<Inventory> inventory = inventoryRepository.findById(addProductToInventoryDTO.getInventoryId());
 
-        Store store = storeRepository.findById(addProductToInventoryDTO.getStoreId()).orElseThrow(() -> new ResourceNotFoundException("Store not found"));
+        Store store = storeRepository.findById(addProductToInventoryDTO.getStoreId()).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Inventory with id %s does not exist", addProductToInventoryDTO.getStoreId())));
         Hibernate.initialize(store.getInventories());
 
-        Product product = productRepository.findById(addProductToInventoryDTO.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        Product product = productRepository.findById(addProductToInventoryDTO.getProductId()).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Product with id %s does not exist", addProductToInventoryDTO.getProductId())));
 
         Inventory savedInventory;
         if (inventory.isEmpty()) {

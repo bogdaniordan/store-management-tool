@@ -16,7 +16,7 @@ public class CategoryService {
 
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found for id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %s does not exist", id)));
     }
 
     public Category createCategory(Category itemCategory) {
@@ -29,20 +29,20 @@ public class CategoryService {
             category.setId(categoryId);
             return categoryRepository.save(category);
         }
-        throw new ResourceNotFoundException("Category not found with id " + categoryId);
+        throw new ResourceNotFoundException(String.format("Category with id %s does not exist", categoryId));
     }
 
     public void deleteCategory(Long id) throws ResourceNotFoundException {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
         } else {
-            throw new ResourceNotFoundException("Category not found");
+            throw new ResourceNotFoundException(String.format("Category with id %s does not exist", id));
         }
     }
 
     public Category updateCategoryName(Long id, String name) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found for id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %s does not exist", id)));
         category.setName(name);
         return categoryRepository.save(category);
     }
