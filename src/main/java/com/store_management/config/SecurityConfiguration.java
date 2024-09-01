@@ -29,7 +29,6 @@ public class SecurityConfiguration {
     }
 
     private final String[] ADMIN_PERMISSIONS = new String[] {
-            ROLE_MANAGE.getPermission(),
             STORE_MANAGE.getPermission(),
             USER_MANAGE.getPermission()
     };

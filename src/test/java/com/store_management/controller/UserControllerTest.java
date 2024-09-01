@@ -56,6 +56,20 @@ public class UserControllerTest extends BaseTest {
     }
 
     @Test
+    @WithMockUser(authorities = "inventory:create")
+    public void get_user_by_id_without_permission() throws Exception {
+        //arrange
+        Mockito.when(userService.getUserById(any())).thenReturn(getUser());
+
+        //act
+        ResultActions result = mockMvc.perform(get("/api/v1/users/{id}", getUser().getId()));
+
+        //assert
+        result.andExpect(status().isForbidden())
+                .andExpect(authenticated());
+    }
+
+    @Test
     @WithMockUser(authorities = "user:manage")
     public void create_user() throws Exception {
         //arrange

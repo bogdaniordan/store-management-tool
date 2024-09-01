@@ -12,9 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/products")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
 public class ProductController {
-
-    //todo add DTOs
 
     private final ProductService productService;
 
@@ -34,7 +33,6 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }

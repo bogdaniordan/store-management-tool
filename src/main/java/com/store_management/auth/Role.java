@@ -11,8 +11,30 @@ import java.util.stream.Collectors;
 @Getter
 @RequiredArgsConstructor
 public enum Role {
-    ADMIN(Set.of(Permission.ROLE_MANAGE, Permission.STORE_MANAGE, Permission.USER_MANAGE)),
-    EMPLOYEE(Set.of(Permission.INVENTORY_CREATE, Permission.INVENTORY_UPDATE, Permission.INVENTORY_DELETE, Permission.PRODUCT_CREATE, Permission.PRODUCT_UPDATE, Permission.PRODUCT_DELETE));
+    ADMIN(
+            Set.of(Permission.STORE_MANAGE,
+                    Permission.USER_MANAGE,
+                    Permission.INVENTORY_CREATE,
+                    Permission.INVENTORY_UPDATE,
+                    Permission.INVENTORY_DELETE,
+                    Permission.PRODUCT_CREATE,
+                    Permission.PRODUCT_UPDATE,
+                    Permission.PRODUCT_DELETE)
+    ),
+    MANAGER(
+            Set.of(Permission.INVENTORY_CREATE,
+                    Permission.INVENTORY_UPDATE,
+                    Permission.INVENTORY_DELETE,
+                    Permission.PRODUCT_CREATE,
+                    Permission.PRODUCT_UPDATE,
+                    Permission.PRODUCT_DELETE)
+    ),
+    EMPLOYEE(
+            Set.of(Permission.PRODUCT_CREATE,
+                    Permission.PRODUCT_UPDATE,
+                    Permission.PRODUCT_DELETE
+            )
+    );
 
     private final Set<Permission> permissions;
 

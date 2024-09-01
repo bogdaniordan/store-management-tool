@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/inventories")
+@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
 public class InventoryController {
 
     private final InventoryService inventoryService;
@@ -23,25 +24,21 @@ public class InventoryController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public ResponseEntity<Inventory> getInventoryById(@PathVariable Long id) {
         return ResponseEntity.ok(inventoryService.getInventoryById(id));
     }
 
     @GetMapping("/store/{id}")
-    @PreAuthorize("hasAnyRole('EMPLOYEE')")
     public ResponseEntity<List<Inventory>> getInventoriesByStoreId(@PathVariable Long id) {
         return ResponseEntity.ok(inventoryService.getInventoriesByStoreId(id));
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Inventory> updateInventory(@PathVariable Long id, @RequestBody Inventory inventory) {
         return ResponseEntity.ok(inventoryService.updateInventory(id, inventory));
     }
 
     @PutMapping("/add-product-to-inventory")
-    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Inventory> addProductToInventory(@Valid @RequestBody AddProductToInventoryDTO addProductToInventoryDTO) {
         return ResponseEntity.ok(inventoryService.addProductToInventory(addProductToInventoryDTO));
     }

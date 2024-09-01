@@ -28,13 +28,12 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NonNull
+    @Column(nullable = false)
     private String firstName;
 
     private String lastName;
 
-    @Column(unique = true)
-    @NonNull
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Positive

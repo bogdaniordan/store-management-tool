@@ -37,6 +37,6 @@ public class Inventory implements Serializable {
     }
 
     public void addProducts(int quantity) {
-        quantity += quantity;
+        this.quantity += quantity;
     }
 }

@@ -7,12 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Permission {
 
-    //ADMIN
-    ROLE_MANAGE("role:manage"),
     STORE_MANAGE("store:manage"),
     USER_MANAGE("user:manage"),
-
-    //EMPLOYEE
     INVENTORY_CREATE("inventory:create"),
     INVENTORY_UPDATE("inventory:update"),
     INVENTORY_DELETE("inventory:delete"),
