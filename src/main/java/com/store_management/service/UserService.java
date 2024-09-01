@@ -1,5 +1,6 @@
 package com.store_management.service;
 
+import com.store_management.dto.UpdateSalaryDTO;
 import com.store_management.entity.Store;
 import com.store_management.entity.User;
 import com.store_management.exception.ResourceNotFoundException;
@@ -88,5 +89,17 @@ public class UserService {
 
         user.removeStore(store);
         return userRepository.save(user);
+    }
+
+
+    public User updateEmployeeSalary(Long userId, UpdateSalaryDTO updateSalaryDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        //todo add proper exception
+        if (user.getRole() != EMPLOYEE) {
+           throw new IllegalArgumentException("Cannot update ADMIN salary");
+        }
+        user.setSalary(updateSalaryDTO.getSalary());
+        return user;
     }
 }

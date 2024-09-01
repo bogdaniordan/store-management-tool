@@ -1,7 +1,9 @@
 package com.store_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.store_management.auth.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties(value = {"authorities"}, allowGetters = true)
 @Table(name = "_users")
 public class User implements Serializable, UserDetails {
 
@@ -34,6 +37,9 @@ public class User implements Serializable, UserDetails {
     @NonNull
     private String email;
 
+    @Positive
+    private Double salary;
+
     @NonNull
     @Size(min = 3, max = 15)
     private String password;
@@ -45,12 +51,13 @@ public class User implements Serializable, UserDetails {
     @ManyToMany
     private Set<Store> stores = new HashSet<>();
 
-    public User(String firstName, String lastName, String email, String password, Role role) {
+    public User(String firstName, String lastName, String email, String password, Double salary, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
         this.role = role;
+        this.salary = salary;
     }
 
     public void addStore(Store store) {
