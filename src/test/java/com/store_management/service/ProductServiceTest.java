@@ -9,11 +9,10 @@ import com.store_management.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +22,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 public class ProductServiceTest extends BaseTest {
 
-    @Autowired
+    @InjectMocks
     private ProductService productService;
 
-    @MockBean
+    @Mock
     private ProductRepository productRepository;
 
-    @MockBean
+    @Mock
     private CategoryRepository categoryRepository;
 
     @BeforeEach
