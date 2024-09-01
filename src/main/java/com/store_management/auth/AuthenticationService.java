@@ -46,7 +46,7 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
         User savedUser = userRepository.save(user);
-        logger.info("User with id " + user.getId() + " has been saved.");
+        logger.info("User with id {} has been saved.", user.getId());
         return savedUser;
     }
 

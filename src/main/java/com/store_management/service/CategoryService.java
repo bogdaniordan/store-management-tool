@@ -30,9 +30,8 @@ public class CategoryService {
         if (categoryRepository.existsById(categoryId)) {
             category.setId(categoryId);
             return categoryRepository.save(category);
-        } else {
-            throw new ResourceNotFoundException("Category not found");
         }
+        throw new ResourceNotFoundException("Category not found with id " + categoryId);
     }
 
     public void deleteCategory(Long id) throws ResourceNotFoundException {

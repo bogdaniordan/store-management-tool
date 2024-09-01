@@ -66,8 +66,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
-                logger.warn("JWT token is not valid for user " + userEmail);
+                logger.warn("JWT token is not valid for user {}", userEmail);
             }
+        } else {
+            logger.warn("Could not extract username from JWT token.");
         }
         filterChain.doFilter(request, response);
     }
