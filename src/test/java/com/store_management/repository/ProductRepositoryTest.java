@@ -1,5 +1,6 @@
 package com.store_management.repository;
 
+import com.store_management.BaseTest;
 import com.store_management.entity.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,23 +12,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
-public class ProductRepositoryTest {
+public class ProductRepositoryTest extends BaseTest {
 
     @Autowired
     private ProductRepository productRepository;
 
-    private final Product product = new Product(1L, "Lego", "Kids building toy", 22.0, 1, null);
-
     @Test
     public void find_by_product_id() {
         //arrange
-        productRepository.save(product);
+        productRepository.save(getProduct());
 
         //act
-        Optional<Product> expected = productRepository.findById(product.getId());
+        Optional<Product> expected = productRepository.findById(getProduct().getId());
 
         //assert
         assertTrue(expected.isPresent());
-        assertEquals(product.getName(), expected.get().getName());
+        assertEquals(getProduct().getName(), expected.get().getName());
     }
 }

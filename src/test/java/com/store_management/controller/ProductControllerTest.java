@@ -1,6 +1,7 @@
 package com.store_management.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.store_management.BaseTest;
 import com.store_management.entity.Category;
 import com.store_management.entity.Product;
 import com.store_management.service.ProductService;
@@ -17,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ProductControllerTest {
+public class ProductControllerTest extends BaseTest {
 
     //todo revise naming conventions for tests
 
@@ -123,15 +123,5 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.id").value(product.getId()))
                 .andExpect(jsonPath("$.category").value(product.getCategory()))
                 .andExpect(authenticated());
-    }
-
-    public Product getProduct() {
-        return Product.builder()
-                .id(1L)
-                .name("Lego")
-                .description("Kids building toy")
-                .price(22.0)
-                .quantity(1)
-                .build();
     }
 }

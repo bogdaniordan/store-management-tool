@@ -1,8 +1,7 @@
 package com.store_management.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.store_management.entity.Store;
-import com.store_management.entity.User;
+import com.store_management.BaseTest;
 import com.store_management.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static com.store_management.auth.Role.ADMIN;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class UserControllerTest extends BaseTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -135,25 +133,5 @@ public class UserControllerTest {
         //assert
         result.andExpect(status().isOk())
                 .andExpect(authenticated());
-    }
-
-    private Store getStore() {
-        return Store.builder()
-                .id(2L)
-                .name("Metro")
-                .location("Victoriei square")
-                .build();
-    };
-
-    private User getUser() {
-        return User.builder()
-                .id(1L)
-                .firstName("Cole")
-                .lastName("Palmer")
-                .email("cole.palmer@gmail.com")
-                .salary(2000.0)
-                .password("colepalmer123")
-                .role(ADMIN)
-                .build();
     }
 }

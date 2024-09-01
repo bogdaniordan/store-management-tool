@@ -4,7 +4,6 @@ import com.store_management.dto.AuthenticationRequestDTO;
 import com.store_management.dto.AuthenticationResponseDTO;
 import com.store_management.dto.RegisterRequestDTO;
 import com.store_management.entity.User;
-import com.store_management.exception.GlobalExceptionHandler;
 import com.store_management.exception.UserDoesNotExistException;
 import com.store_management.repository.UserRepository;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ import java.util.Optional;
 @Service
 public class AuthenticationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final UserRepository userRepository;
 

@@ -1,15 +1,14 @@
 package com.store_management.service;
 
+import com.store_management.BaseTest;
 import com.store_management.entity.Category;
 import com.store_management.entity.Product;
 import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.CategoryRepository;
 import com.store_management.repository.ProductRepository;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+public class ProductServiceTest extends BaseTest {
 
     @Autowired
     private ProductService productService;
@@ -37,12 +36,6 @@ public class ProductServiceTest {
     @MockBean
     private CategoryRepository categoryRepository;
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
-    private final Product product = new Product(1L, "Lego", "Kids building toy", 22.0, 1, null);
-
-
     @BeforeEach
     public void before() {
         Mockito.reset(productRepository);
@@ -52,20 +45,20 @@ public class ProductServiceTest {
     @Test
     public void test_get_product_by_id() {
         //arrange
-        Mockito.when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(getProduct().getId())).thenReturn(Optional.of(getProduct()));
 
         //act
-        Product expectedProduct = productService.getProductById(product.getId());
+        Product expectedProduct = productService.getProductById(getProduct().getId());
 
         //assert
         assertNotNull(expectedProduct);
-        verify(productRepository, times(1)).findById(product.getId());
+        verify(productRepository, times(1)).findById(getProduct().getId());
     }
 
     @Test
     public void test_get_product_by_category_id() {
         //arrange
-        Category category = new Category(2L, "Toys", List.of(product));
+        Category category = new Category(2L, "Toys", List.of(getProduct()));
 
         //act
         Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
@@ -74,69 +67,69 @@ public class ProductServiceTest {
         //assert
         assertNotNull(expectedProducts);
         assertEquals(1, expectedProducts.size());
-        assertEquals(product.getName(), expectedProducts.get(0).getName());
+        assertEquals(getProduct().getName(), expectedProducts.get(0).getName());
         verify(categoryRepository, times(1)).findById(category.getId());
     }
 
     @Test
     public void test_create_product() {
         //arrange
-        Mockito.when(productRepository.save(product)).thenReturn(product);
+        Mockito.when(productRepository.save(getProduct())).thenReturn(getProduct());
 
         //act
-        Product expectedProduct = productService.createProduct(product);
+        Product expectedProduct = productService.createProduct(getProduct());
 
         //assert
         assertNotNull(expectedProduct);
-        verify(productRepository, times(1)).save(product);
+        verify(productRepository, times(1)).save(getProduct());
     }
 
     @Test
     public void test_update_product_exists() {
         //arrange
-        Mockito.when(productRepository.existsById(product.getId())).thenReturn(true);
-        Mockito.when(productRepository.save(product)).thenReturn(product);
+        Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(true);
+        Mockito.when(productRepository.save(getProduct())).thenReturn(getProduct());
 
         //act
-        Product expectedProduct = productService.updateProduct(product.getId(), product);
+        Product expectedProduct = productService.updateProduct(getProduct().getId(), getProduct());
 
         //assert
         assertNotNull(expectedProduct);
-        verify(productRepository, times(1)).existsById(product.getId());
-        verify(productRepository, times(1)).save(product);
+        verify(productRepository, times(1)).existsById(getUser().getId());
+        verify(productRepository, times(1)).save(getProduct());
     }
 
     @Test
     public void test_update_product_does_not_exist() {
         //arrange
-        Mockito.when(productRepository.existsById(product.getId())).thenReturn(false);
+        Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(false);
 
         //act & assert
-        assertThrows(ResourceNotFoundException.class, () -> productService.updateProduct(product.getId(), product));
-        verify(productRepository, times(1)).existsById(product.getId());
+        assertThrows(ResourceNotFoundException.class, () -> productService.updateProduct(getProduct().getId(), getProduct()));
+        verify(productRepository, times(1)).existsById(getProduct().getId());
     }
 
     @Test
     public void test_delete_product_by_id() {
         //arrange
-        Mockito.when(productRepository.existsById(product.getId())).thenReturn(true);
+        Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(true);
 
         //act
-        productService.deleteProduct(product.getId());
+        productService.deleteProduct(getProduct().getId());
 
         //assert
-        verify(productRepository, times(1)).existsById(product.getId());
-        verify(productRepository, times(1)).deleteById(product.getId());
+        verify(productRepository, times(1)).existsById(getProduct().getId());
+        verify(productRepository, times(1)).deleteById(getProduct().getId());
     }
 
     @Test
     public void test_delete_product_does_not_exist() {
         //arrange
-        Mockito.when(productRepository.existsById(product.getId())).thenReturn(false);
+        Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(false);
 
         //act & assert
-        assertThrows(ResourceNotFoundException.class, () -> productService.deleteProduct(product.getId()));
-        verify(productRepository, times(1)).existsById(product.getId());
+        assertThrows(ResourceNotFoundException.class, () -> productService.deleteProduct(getProduct().getId()));
+        verify(productRepository, times(1)).existsById(getProduct().getId());
     }
 
     @Test
@@ -144,14 +137,14 @@ public class ProductServiceTest {
         //arrange
         Category category = new Category(2L, "Toys", new ArrayList<>());
         Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
-        Mockito.when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(getProduct().getId())).thenReturn(Optional.of(getProduct()));
 
         //act
-        productService.addProductToCategory(product.getId(), category.getId());
+        productService.addProductToCategory(getProduct().getId(), category.getId());
 
         //assert
         assertEquals(category.getProducts().size(), 1);
-        verify(productRepository, times(1)).save(product);
+        verify(productRepository, times(1)).save(getProduct());
         verify(categoryRepository, times(1)).save(category);
     }
 }
