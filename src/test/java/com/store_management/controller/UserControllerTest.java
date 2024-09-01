@@ -40,7 +40,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void test_get_user_by_id() throws Exception {
+    public void get_user_by_id() throws Exception {
         //arrange
         Mockito.when(userService.getUserById(any())).thenReturn(getUser());
 
@@ -57,7 +57,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void test_create_user() throws Exception {
+    public void create_user() throws Exception {
         //arrange
         Mockito.when(userService.createUser(any())).thenReturn(getUser());
 
@@ -73,7 +73,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void test_update_user() throws Exception {
+    public void update_user() throws Exception {
         //arrange
         Mockito.when(userService.updateUser(any(), any())).thenReturn(getUser());
 
@@ -92,7 +92,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void test_delete_user_by_id() throws Exception {
+    public void delete_user_by_id() throws Exception {
         // act
         ResultActions result = mockMvc.perform(
                 delete("/api/v1/users/delete/{id}", getUser().getId())

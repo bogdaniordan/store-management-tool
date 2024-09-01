@@ -47,7 +47,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void test_get_product_by_id() throws Exception {
+    public void get_product_by_id() throws Exception {
         //arrange & act
         Mockito.when(productService.getProductById(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(get("/api/v1/products/{id}", getProduct().getId()));
@@ -61,7 +61,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void test_create_product() throws Exception {
+    public void create_product() throws Exception {
         //arrange & act
         Mockito.when(productService.createProduct(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(
@@ -76,7 +76,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void test_create_product_without_permission() throws Exception {
+    public void create_product_without_permission() throws Exception {
         //arrange & act
         Mockito.when(productService.createProduct(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(
@@ -90,7 +90,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void test_update_product() throws Exception {
+    public void update_product() throws Exception {
         //arrange & act
         Mockito.when(productService.updateProduct(any(), any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(
@@ -107,7 +107,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void test_add_category_to_product() throws Exception {
+    public void add_category_to_product() throws Exception {
         //arrange
         Product product = getProduct();
         product.setCategory(new Category(2L, "Toys", new ArrayList<>()));

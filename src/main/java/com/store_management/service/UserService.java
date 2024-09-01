@@ -51,15 +51,16 @@ public class UserService {
     }
 
     public User updateUser(Long id, User user) throws ResourceNotFoundException {
-        return userRepository.findById(id).map(existingUser -> {
-            user.setId(id);
-            return userRepository.save(user);
-        }).orElseThrow(() -> new UserDoesNotExistException("User with id " + id + " does not exist"));
+        Optional<User> foundUser = userRepository.findById(user.getId());
+        if (foundUser.isEmpty()) {
+            throw new UserDoesNotExistException("User does not exist with id " + id);
+        }
+        user.setId(id);
+        return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
+        if (!userRepository.existsById(id)) {
             throw new UserAlreadyExistsException("User with id " + id + " does not exist");
         }
         userRepository.deleteById(id);

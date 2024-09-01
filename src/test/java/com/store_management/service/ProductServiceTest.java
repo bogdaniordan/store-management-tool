@@ -43,7 +43,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_get_product_by_id() {
+    public void get_product_by_id() {
         //arrange
         Mockito.when(productRepository.findById(getProduct().getId())).thenReturn(Optional.of(getProduct()));
 
@@ -56,7 +56,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_get_product_by_category_id() {
+    public void get_product_by_category_id() {
         //arrange
         Category category = new Category(2L, "Toys", List.of(getProduct()));
 
@@ -72,7 +72,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_create_product() {
+    public void create_product() {
         //arrange
         Mockito.when(productRepository.save(getProduct())).thenReturn(getProduct());
 
@@ -85,7 +85,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_update_product_exists() {
+    public void update_product() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(true);
         Mockito.when(productRepository.save(getProduct())).thenReturn(getProduct());
@@ -100,7 +100,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_update_product_does_not_exist() {
+    public void update_product_when_product_does_not_exist() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(false);
 
@@ -110,7 +110,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_delete_product_by_id() {
+    public void delete_product_by_id() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(true);
 
@@ -123,7 +123,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_delete_product_does_not_exist() {
+    public void delete_product_does_not_exist() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(false);
 
@@ -133,7 +133,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void test_add_product_to_category() {
+    public void add_product_to_category() {
         //arrange
         Category category = new Category(2L, "Toys", new ArrayList<>());
         Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));
