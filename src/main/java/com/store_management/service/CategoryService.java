@@ -18,7 +18,7 @@ public class CategoryService {
 
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product category not found for id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found for id " + id));
     }
 
     public Category createCategory(Category itemCategory) {
@@ -31,7 +31,7 @@ public class CategoryService {
             category.setId(categoryId);
             return categoryRepository.save(category);
         } else {
-            throw new ResourceNotFoundException("ItemCategory not found");
+            throw new ResourceNotFoundException("Category not found");
         }
     }
 
@@ -39,7 +39,14 @@ public class CategoryService {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
         } else {
-            throw new ResourceNotFoundException("Product category not found");
+            throw new ResourceNotFoundException("Category not found");
         }
+    }
+
+    public Category updateCategoryName(Long id, String name) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found for id " + id));
+        category.setName(name);
+        return categoryRepository.save(category);
     }
 }
