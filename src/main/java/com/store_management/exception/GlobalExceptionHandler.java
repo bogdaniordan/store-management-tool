@@ -14,38 +14,44 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(value = ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException e) {
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
         logger.error("Resource not found exception: {}", e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        ErrorResponse errorResponse = new ErrorResponse("Resource Not Found", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = InventoryAlreadyExistsException.class)
-    public ResponseEntity<Object> handleInventoryAlreadyExistsException(InventoryAlreadyExistsException e) {
+    public ResponseEntity<ErrorResponse> handleInventoryAlreadyExistsException(InventoryAlreadyExistsException e) {
         logger.error("Inventory already exists exception: {}", e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse("Inventory already exists", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = UserAlreadyExistsException.class)
-    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
         logger.error("User already exists exception: {}", e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse("User already exists", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = UserDoesNotExistException.class)
-    public ResponseEntity<Object> handleUserDoesNotExistException(UserDoesNotExistException e) {
+    public ResponseEntity<ErrorResponse> handleUserDoesNotExistException(UserDoesNotExistException e) {
         logger.error("User does not exist exception: {}", e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse("User does not exist", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AuthorizationDeniedException.class)
-    ResponseEntity<Object> handleAuthorizationDeniedException(AuthorizationDeniedException e) {
+    ResponseEntity<ErrorResponse> handleAuthorizationDeniedException(AuthorizationDeniedException e) {
         logger.error("Authorization denied exception: {}", e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        ErrorResponse errorResponse = new ErrorResponse("Authorization denied", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> handleException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
         logger.error("Exception: {}", e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorResponse errorResponse = new ErrorResponse("Internal server error", e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
