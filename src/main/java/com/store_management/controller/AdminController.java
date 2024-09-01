@@ -7,6 +7,7 @@ import com.store_management.entity.User;
 import com.store_management.service.CategoryService;
 import com.store_management.service.StoreService;
 import com.store_management.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,12 @@ public class AdminController {
     }
 
     @PostMapping("/create-store")
-    public ResponseEntity<Store> createStore(@RequestBody Store store) {
+    public ResponseEntity<Store> createStore(@RequestBody @Valid Store store) {
         return new ResponseEntity<>(storeService.createStore(store), HttpStatus.CREATED);
     }
 
     @PutMapping("/update-store/{id}")
-    public ResponseEntity<Store> updateStore(@PathVariable Long id, @RequestBody Store store) {
+    public ResponseEntity<Store> updateStore(@PathVariable Long id, @RequestBody @Valid Store store) {
         return ResponseEntity.ok(storeService.updateStore(id, store));
     }
 

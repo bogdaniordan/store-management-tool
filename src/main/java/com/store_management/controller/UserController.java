@@ -2,6 +2,7 @@ package com.store_management.controller;
 
 import com.store_management.entity.User;
 import com.store_management.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,12 @@ public class UserController {
     }
 
     @PostMapping("/create")
-        public ResponseEntity<User> createUser(@RequestBody User user) {
+        public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid User user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 

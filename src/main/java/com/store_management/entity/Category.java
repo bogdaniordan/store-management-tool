@@ -1,6 +1,7 @@
 package com.store_management.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Category implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    @Size(min=3, message="Name should have at least 10 characters")
     private String name;
 
     @OneToMany

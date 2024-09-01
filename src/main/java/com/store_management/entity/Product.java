@@ -2,6 +2,7 @@ package com.store_management.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Product implements Serializable {
     private String name;
 
     @Column(nullable = false)
+    @Size(min=3, message="Description should have at least 10 characters")
     private String description;
 
     @Positive

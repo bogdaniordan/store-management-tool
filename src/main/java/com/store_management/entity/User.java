@@ -29,11 +29,13 @@ public class User implements Serializable, UserDetails {
     private Long id;
 
     @Column(nullable = false)
+    @Size(min=3, message="Name should have at least 3 characters")
     private String firstName;
 
     private String lastName;
 
     @Column(unique = true, nullable = false)
+    @Size(min=7, message="Email should have at least 3 characters")
     private String email;
 
     @Positive
