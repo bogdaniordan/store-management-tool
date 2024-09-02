@@ -25,6 +25,8 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTest extends BaseTest {
 
+    //todo change naming convetion
+
     @InjectMocks
     private ProductService productService;
 
