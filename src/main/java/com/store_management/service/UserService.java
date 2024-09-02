@@ -30,9 +30,7 @@ public class UserService {
     }
 
     public User getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
-        Hibernate.initialize(user.getStores());
-        return user;
+        return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
     }
 
     public User createUser(User user) {
@@ -66,11 +64,8 @@ public class UserService {
     public User addStoreToUser(Long userId, Long storeId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
-        Hibernate.initialize(user.getStores());
-
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Store not found"));
-        Hibernate.initialize(store.getInventories());
 
         user.addStore(store);
         return userRepository.save(user);
@@ -79,11 +74,8 @@ public class UserService {
     public User removeStoreFromUser(Long userId, Long storeId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("User with id %s does not exist", userId)));
-        Hibernate.initialize(user.getStores());
-
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Store with id %s does not exist", storeId)));
-        Hibernate.initialize(store.getInventories());
 
         user.removeStore(store);
         return userRepository.save(user);

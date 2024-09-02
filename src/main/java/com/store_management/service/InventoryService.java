@@ -51,7 +51,6 @@ public class InventoryService {
 
         Store store = storeRepository.findById(addProductToInventoryDTO.getStoreId()).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Inventory with id %s does not exist", addProductToInventoryDTO.getStoreId())));
-        Hibernate.initialize(store.getInventories());
 
         Product product = productRepository.findById(addProductToInventoryDTO.getProductId()).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Product with id %s does not exist", addProductToInventoryDTO.getProductId())));

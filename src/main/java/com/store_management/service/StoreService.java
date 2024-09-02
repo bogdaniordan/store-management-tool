@@ -20,9 +20,7 @@ public class StoreService {
     }
 
     public Store getStoreById(Long id) {
-        Store store = storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Store with id %s does not exist", id)));
-        Hibernate.initialize(store.getInventories());
-        return store;
+        return storeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Store with id %s does not exist", id)));
     }
 
     public Store createStore(Store store) {
