@@ -25,8 +25,6 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTest extends BaseTest {
 
-    //todo change naming convetion
-
     @InjectMocks
     private ProductService productService;
 
@@ -43,7 +41,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void get_product_by_id() {
+    public void givenProductId_whenFindProduct_thenReturnProduct() {
         //arrange
         Mockito.when(productRepository.findById(getProduct().getId())).thenReturn(Optional.of(getProduct()));
 
@@ -56,7 +54,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void get_product_by_category_id() {
+    public void givenCategoryId_whenFindProductsByCategory_thenReturnProducts() {
         //arrange
         Category category = new Category(2L, "Toys", List.of(getProduct()));
 
@@ -72,7 +70,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void create_product() {
+    public void givenProduct_whenCreateProduct_thenProductPersisted() {
         //arrange
         Mockito.when(productRepository.save(getProduct())).thenReturn(getProduct());
 
@@ -85,7 +83,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void update_product() {
+    public void givenExistingProduct_whenUpdateProduct_thenProductUpdated() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(true);
         Mockito.when(productRepository.save(getProduct())).thenReturn(getProduct());
@@ -100,7 +98,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void update_product_when_product_does_not_exist() {
+    public void givenProductNotExists_whenUpdateProduct_thenThrowResourceNotFoundException() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(false);
 
@@ -110,7 +108,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void delete_product_by_id() {
+    public void givenValidProductId_whenDeleteProduct_thenProductDeleted() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(true);
 
@@ -123,7 +121,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void delete_product_does_not_exist() {
+    public void givenInvalidProductId_whenDeleteProduct_thenThrowResourceNotFoundException() {
         //arrange
         Mockito.when(productRepository.existsById(getProduct().getId())).thenReturn(false);
 
@@ -133,7 +131,7 @@ public class ProductServiceTest extends BaseTest {
     }
 
     @Test
-    public void add_product_to_category() {
+    public void givenProductAndCategory_whenAddProductToCategory_thenProductAddedToCategory() {
         //arrange
         Category category = new Category(2L, "Toys", new ArrayList<>());
         Mockito.when(categoryRepository.findById(category.getId())).thenReturn(Optional.of(category));

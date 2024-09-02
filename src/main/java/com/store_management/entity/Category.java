@@ -26,7 +26,7 @@ public class Category implements Serializable {
     @Size(min=3, message="Name should have at least 10 characters")
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product) {

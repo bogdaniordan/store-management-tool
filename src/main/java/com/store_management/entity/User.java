@@ -49,7 +49,7 @@ public class User implements Serializable, UserDetails {
     @NonNull
     private Role role;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Store> stores = new HashSet<>();
 
     public User(String firstName, String lastName, String email, String password, Double salary, Role role) {

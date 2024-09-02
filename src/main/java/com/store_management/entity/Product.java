@@ -34,6 +34,6 @@ public class Product implements Serializable {
     @Positive
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 }

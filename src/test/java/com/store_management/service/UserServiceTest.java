@@ -39,7 +39,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void get_product_by_id() {
+    public void givenValidUserId_whenFindUser_thenReturnUser() {
         //arrange
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(getUser()));
 
@@ -52,7 +52,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void create_new_user() {
+    public void givenValidUser_whenCreateUser_thenUserCreated() {
         //arrange
         Mockito.when(userRepository.save(any())).thenReturn(getUser());
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.empty());
@@ -66,7 +66,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void create_new_user_when_user_already_exists() {
+    public void givenInvalidUser_whenCreateUser_thenThrowUserAlreadyExistsException() {
         //arrange
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(getUser()));
 
@@ -76,7 +76,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void update_user() {
+    public void givenValidUser_whenUpdateUser_thenUserUpdated() {
         //arrange
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(getUser()));
         Mockito.when(userRepository.save(any())).thenReturn(getUser());
@@ -91,7 +91,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void delete_user() {
+    public void givenValidUserId_whenDeleteUser_thenUserDeleted() {
         //arrange
         Mockito.when(userRepository.existsById(any())).thenReturn(true);
 
@@ -104,7 +104,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void add_store_to_user() {
+    public void givenUserAndStore_whenAddStoreToUser_thenStoreAddedToUser() {
         //arrange
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.of(getUser()));
         Mockito.when(storeRepository.findById(any())).thenReturn(Optional.of(getStore()));
@@ -120,7 +120,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void remove_store_from_user() {
+    public void givenUserAndStore_whenStoreAddToUser_thenStoreAddedToUserr() {
         //arrange
         User user = getUser();
         user.addStore(getStore());

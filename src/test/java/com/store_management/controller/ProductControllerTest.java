@@ -76,7 +76,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void create_product_without_permission() throws Exception {
+    public void create_product_without_correct_permission() throws Exception {
         //arrange & act
         Mockito.when(productService.createProduct(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(

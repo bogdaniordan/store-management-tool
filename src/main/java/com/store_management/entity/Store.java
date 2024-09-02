@@ -30,6 +30,6 @@ public class Store implements Serializable {
     @Size(min = 5, max = 15)
     private String location;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Inventory> inventories = new ArrayList<>();
 }

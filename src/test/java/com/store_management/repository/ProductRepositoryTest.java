@@ -18,7 +18,7 @@ public class ProductRepositoryTest extends BaseTest {
     private ProductRepository productRepository;
 
     @Test
-    public void find_by_product_id() {
+    public void givenProductIsSaved_whenFindProduct_thenReturnProduct() {
         //arrange
         productRepository.save(getProduct());
 
