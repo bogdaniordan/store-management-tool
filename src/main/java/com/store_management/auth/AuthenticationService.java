@@ -63,10 +63,9 @@ public class AuthenticationService {
                     () ->  new UserDoesNotExistException("Could not find user with email " + request.getEmail()));
             logger.info("User with id {} has been authenticated.", user.getId());
             String jwtToken = jwtService.generateToken(user);
-            logger.info("JWT token has been generated on authentication.");
             return new AuthenticationResponseDTO(jwtToken);
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Bad credentials when trying to authenticate user", e);
+            throw new BadCredentialsException(String.format("Bad credentials when trying to authenticate user with email: %s.", request.getEmail()));
         }
     }
 }
