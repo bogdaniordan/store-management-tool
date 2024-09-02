@@ -33,16 +33,19 @@ The API also offers authentication and authorization mechanisms.
 ## User roles
 
 #### Admin
-- Can create, update, and delete stores
-- Manages user access and roles
-- Manages products and categories
+- Can create, update, assign and delete stores
+- Manage user access and roles
+- Manage inventories, products and categories
+- Permissions: store, category, user, inventory and product manage
 
 #### Manager
 - Can create, update, delete and manage products
-- Can manage inventories
+- Manage inventories and categories
+- Permissions: category, inventory and product manage
 
 #### Employee
-- Can only manage products
+- Manage products and categories
+- Permissions: category and product manage
 
 ## Installation Steps
 

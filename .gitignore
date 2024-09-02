@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Project Files ###
+store-management.mv.db
+store-management.trace.db
+store-management-tool.mv.db

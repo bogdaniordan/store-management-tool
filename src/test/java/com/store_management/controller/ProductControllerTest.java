@@ -29,8 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ProductControllerTest extends BaseTest {
 
-    //todo revise naming conventions for tests
-
     @Autowired
     private MockMvc mockMvc;
 
