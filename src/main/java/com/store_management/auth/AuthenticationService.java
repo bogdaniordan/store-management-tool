@@ -11,7 +11,10 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,19 +52,21 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        Optional<User> user = userRepository.findByEmail(request.getEmail());
-        if (user.isEmpty()) {
-            throw new UserDoesNotExistException("Could not find user with email " + request.getEmail());
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                    () ->  new UserDoesNotExistException("Could not find user with email " + request.getEmail()));
+            logger.info("User with id {} has been authenticated.", user.getId());
+            String jwtToken = jwtService.generateToken(user);
+            logger.info("JWT token has been generated on authentication.");
+            return new AuthenticationResponseDTO(jwtToken);
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("Bad credentials when trying to authenticate user", e);
         }
-        logger.info("User has been authenticated.");
-        String jwtToken = jwtService.generateToken(user.get());
-        logger.info("JWT token has been generated on authentication.");
-        return new AuthenticationResponseDTO(jwtToken);
     }
 }
