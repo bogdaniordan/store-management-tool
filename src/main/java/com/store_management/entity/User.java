@@ -35,14 +35,14 @@ public class User implements Serializable, UserDetails {
     private String lastName;
 
     @Column(unique = true, nullable = false)
-    @Size(min=7, message="Email should have at least 3 characters")
+    @Size(min=7, message="Email should have at least 7 characters")
     private String email;
 
     @Positive
     private Double salary;
 
     @NonNull
-    @Size(min = 3, max = 15)
+    @Size(min = 10)
     private String password;
 
     @Enumerated(EnumType.STRING)
