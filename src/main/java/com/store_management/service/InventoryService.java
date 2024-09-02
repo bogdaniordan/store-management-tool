@@ -9,7 +9,8 @@ import com.store_management.exception.ResourceNotFoundException;
 import com.store_management.repository.InventoryRepository;
 import com.store_management.repository.ProductRepository;
 import com.store_management.repository.StoreRepository;
-import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.Optional;
 
 @Service
 public class InventoryService {
+
+    private static final Logger logger = LoggerFactory.getLogger(InventoryService.class);
 
     private final InventoryRepository inventoryRepository;
 
@@ -46,6 +49,7 @@ public class InventoryService {
         return inventoryRepository.save(inventory);
     }
 
+
     public Inventory addProductToInventory(AddProductToInventoryDTO addProductToInventoryDTO) {
         Optional<Inventory> inventory = inventoryRepository.findById(addProductToInventoryDTO.getInventoryId());
 
@@ -61,6 +65,7 @@ public class InventoryService {
         } else {
             inventory.get().addProducts(addProductToInventoryDTO.getCount());
             savedInventory = inventory.get();
+            logger.info("Product has been added to inventory with id {}", inventory.get().getId());
         }
 
 

@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
     byte[] SECRET_KEY_BYTES = generateSecretKey();
 
@@ -43,6 +47,7 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
+        logger.debug("Generating JWT token for user {}", userDetails.getUsername());
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -67,6 +72,7 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
+        logger.debug("Extracting claims from JWT token: {}", token);
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())

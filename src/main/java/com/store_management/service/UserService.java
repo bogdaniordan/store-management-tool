@@ -9,6 +9,8 @@ import com.store_management.exception.UserDoesNotExistException;
 import com.store_management.repository.StoreRepository;
 import com.store_management.repository.UserRepository;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import static com.store_management.auth.Role.EMPLOYEE;
 
 @Service
 public class UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
 
@@ -42,7 +46,9 @@ public class UserService {
         String password = user.getPassword();
         newUser.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRole(EMPLOYEE);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        logger.info("Created new user with email {}", user.getEmail());
+        return savedUser;
     }
 
     public User updateUser(Long id, User user) throws ResourceNotFoundException {
@@ -89,6 +95,8 @@ public class UserService {
            throw new IllegalArgumentException("Cannot update ADMIN salary");
         }
         user.setSalary(updateSalaryDTO.getSalary());
+        userRepository.save(user);
+        logger.info("Updated salary for user with id {}", userId);
         return user;
     }
 }

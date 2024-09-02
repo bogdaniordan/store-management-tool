@@ -34,8 +34,7 @@ public class UserServiceTest extends BaseTest {
 
     @BeforeEach
     public void before() {
-        Mockito.reset(userRepository);
-        Mockito.reset(storeRepository);
+        Mockito.reset(userRepository, storeRepository);
     }
 
     @Test

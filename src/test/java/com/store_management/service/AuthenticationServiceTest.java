@@ -15,12 +15,14 @@ import com.store_management.dto.RegisterRequestDTO;
 import com.store_management.exception.UserAlreadyExistsException;
 import com.store_management.exception.UserDoesNotExistException;
 import com.store_management.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -46,6 +48,11 @@ public class AuthenticationServiceTest extends BaseTest {
 
     @Mock
     private JwtService jwtService;
+
+    @BeforeEach
+    public void before() {
+        Mockito.reset(userRepository, authenticationManager, passwordEncoder, jwtService);
+    }
 
     @Test
     void givenInvalidUser_whenAuthenticate_throwUserDoesNotExistException() {
@@ -79,6 +86,7 @@ public class AuthenticationServiceTest extends BaseTest {
         //arrange
         RegisterRequestDTO request = getRegisterRequest();
         Mockito.when(userRepository.findByEmail(any())).thenReturn(Optional.ofNullable(getUser()));
+        Mockito.when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()))).thenReturn(null);
 
         //act & assert
         assertThrows(UserAlreadyExistsException.class, () -> authenticationService.registerUser(request));
@@ -90,6 +98,7 @@ public class AuthenticationServiceTest extends BaseTest {
         RegisterRequestDTO request = getRegisterRequest();
         Mockito.when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
         Mockito.when(passwordEncoder.encode(any())).thenReturn("9122hy39812y39y91d");
+        Mockito.when(userRepository.save(any())).thenReturn(getUser());
 
         //act
         authenticationService.registerUser(request);

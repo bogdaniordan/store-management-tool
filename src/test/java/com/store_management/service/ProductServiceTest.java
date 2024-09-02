@@ -36,8 +36,7 @@ public class ProductServiceTest extends BaseTest {
 
     @BeforeEach
     public void before() {
-        Mockito.reset(productRepository);
-        Mockito.reset(categoryRepository);
+        Mockito.reset(productRepository, categoryRepository);
     }
 
     @Test
