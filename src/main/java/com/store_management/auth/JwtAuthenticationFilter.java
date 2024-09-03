@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userEmail;
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            logger.warn("Missing authorization header or unexpected formatting.");
+            logger.error("Missing authorization token or unexpected header formatting.");
             filterChain.doFilter(request, response);
             return;
         }

@@ -119,7 +119,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void givenUserAndStore_whenStoreAddToUser_thenStoreAddedToUserr() {
+    public void givenUserAndStore_whenStoreAddToUser_thenStoreAddedToUser() {
         //arrange
         User user = getUser();
         user.addStore(getStore());

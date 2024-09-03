@@ -40,7 +40,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void get_user_by_id() throws Exception {
+    public void givenGetUserRequest_whenFindUser_thenReturnUserOk() throws Exception {
         //arrange
         Mockito.when(userService.getUserById(any())).thenReturn(getUser());
 
@@ -57,7 +57,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "inventory:create")
-    public void get_user_by_id_without_permission() throws Exception {
+    public void givenGetUserWithoutPermission_whenFindUser_thenStatusIsForbidden() throws Exception {
         //arrange
         Mockito.when(userService.getUserById(any())).thenReturn(getUser());
 
@@ -71,7 +71,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void create_user() throws Exception {
+    public void giveCreateUserRequest_whenCreateUser_thenUserCreatedOk() throws Exception {
         //arrange
         Mockito.when(userService.createUser(any())).thenReturn(getUser());
 
@@ -87,7 +87,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void update_user() throws Exception {
+    public void givenUpdateUserRequest_whenUpdateUser_thenUserIsUpdatedOk() throws Exception {
         //arrange
         Mockito.when(userService.updateUser(any(), any())).thenReturn(getUser());
 
@@ -106,7 +106,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void delete_user_by_id() throws Exception {
+    public void givenDeleteUserRequest_whenDeleteUser_thenUserIsDeletedOk() throws Exception {
         // act
         ResultActions result = mockMvc.perform(
                 delete("/api/v1/users/delete/{id}", getUser().getId())
@@ -119,7 +119,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void add_store_to_user() throws Exception {
+    public void givenAddStoreToUserRequest_whenAddStoreToUser_thenStoreAddedToUserOk() throws Exception {
         //arrange
         Mockito.when(userService.addStoreToUser(any(), any())).thenReturn(getUser());
 
@@ -135,7 +135,7 @@ public class UserControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(authorities = "user:manage")
-    public void remove_store_from_user() throws Exception {
+    public void givenRemovedStoreFromUserRequest_whenRemoveStoreFromUser_thenStoreRemovedFromUserOk() throws Exception {
         //arrange
         Mockito.when(userService.removeStoreFromUser(any(), any())).thenReturn(getUser());
 

@@ -15,13 +15,14 @@ The API also offers authentication and authorization mechanisms.
 - **Object-Relational Mapping (ORM):** [Hibernate](https://hibernate.org/)
   with [JPA](https://jakarta.ee/specifications/persistence/) - for efficient database operations and easy data
   manipulation.
-- **Data Validation:** Enforced by the [Jakarta Persistence API](https://jakarta.ee/specifications/persistence/) - for
+- **Data validation:** Enforced by the [Jakarta Persistence API](https://jakarta.ee/specifications/persistence/) - for
   robust data integrity.
-- **Build and Dependency Management:** Managed with [Maven](https://maven.apache.org/) - simplifies project builds and
+- **Build and dependency management:** Managed with [Maven](https://maven.apache.org/) - simplifies project builds and
   manages dependencies.
-- **Code Simplification:** [Lombok](https://projectlombok.org/)- minimizes boilerplate code for cleaner and more
+- **Code simplification:** [Lombok](https://projectlombok.org/) - minimizes boilerplate code for cleaner and more
   readable codebase.
 - **API Design:** RESTful APIs - for scalable and maintainable service architecture.
+- **Testing:** [JUnit](https://junit.org/junit5/) and [Mockito](https://site.mockito.org/) - for unit testing.
 
 ## Features
 
@@ -30,7 +31,7 @@ The API also offers authentication and authorization mechanisms.
 - **Users manage:** Users can be created an managed by users with Admin role.
 - **Authentication and authorization:** Users can register and authenticate. REST endpoints authorize the requests based on roles and permissions.
 
-## User roles
+## User roles and permissions
 
 #### Admin
 - Can create, update, assign and delete stores
@@ -57,13 +58,13 @@ To get started with the store management tool, follow these steps:
 git clone https://github.com/bogdaniordan/store-management-tool.git
 ```
 
-### 2. Navigate to the Project Directory:
+### 2. Navigate to the project directory:
 
 ```bash
 cd store-management-tool
 ```
 
-### 3. Ensure Prerequisites are Installed:
+### 3. Ensure prerequisites are installed:
 
 Ensure Java and Maven are installed and properly configured on your system before starting.
 The application is tested with Java 22 and Maven 3.9.9.

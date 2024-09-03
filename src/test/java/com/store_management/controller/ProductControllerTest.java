@@ -45,7 +45,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void get_product_by_id() throws Exception {
+    public void givenGetProduct_whenFindProduct_thenReturnProductOk() throws Exception {
         //arrange & act
         Mockito.when(productService.getProductById(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(get("/api/v1/products/{id}", getProduct().getId()));
@@ -59,7 +59,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void create_product() throws Exception {
+    public void givenCreateProductRequest_whenCreateProduct_thenProductIsCreatedOk() throws Exception {
         //arrange & act
         Mockito.when(productService.createProduct(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(
@@ -74,7 +74,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void create_product_without_correct_permission() throws Exception {
+    public void givenCreateProductWithoutPermission_whenCreateProduct_thenReturnForbiddenStatus() throws Exception {
         //arrange & act
         Mockito.when(productService.createProduct(any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(
@@ -88,7 +88,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void update_product() throws Exception {
+    public void givenUpdateProductRequest_whenUpdateProduct_thenProductIsUpdatedOk() throws Exception {
         //arrange & act
         Mockito.when(productService.updateProduct(any(), any())).thenReturn(getProduct());
         ResultActions result = mockMvc.perform(
@@ -105,7 +105,7 @@ public class ProductControllerTest extends BaseTest {
 
     @Test
     @WithMockUser(roles = "EMPLOYEE")
-    public void add_category_to_product() throws Exception {
+    public void givenAddProductToCategoryRequest_whenAddProductToCategory_thenProductAddedToCategoryOk() throws Exception {
         //arrange
         Product product = getProduct();
         product.setCategory(new Category(2L, "Toys", new ArrayList<>()));
