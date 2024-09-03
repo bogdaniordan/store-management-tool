@@ -25,7 +25,7 @@ public class Product implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    @Size(min=3, message="Description should have at least 10 characters")
+    @Size(min=5, message="Description should have at least 5 characters")
     private String description;
 
     @Positive

@@ -42,7 +42,6 @@ public class User implements Serializable, UserDetails {
     private Double salary;
 
     @NonNull
-    @Size(min = 10)
     private String password;
 
     @Enumerated(EnumType.STRING)

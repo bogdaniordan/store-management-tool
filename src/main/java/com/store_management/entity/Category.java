@@ -23,7 +23,7 @@ public class Category implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    @Size(min=3, message="Name should have at least 10 characters")
+    @Size(min=5, message="Name should have at least 5 characters")
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY)
