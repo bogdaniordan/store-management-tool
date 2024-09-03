@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -52,7 +53,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         token = authorizationHeader.substring(7);
-        userEmail = jwtService.extractUsername(token);
+        try {
+            userEmail = jwtService.extractUsername(token);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Error extracting username from token: %s", e.getMessage()));
+        }
+
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(token, userDetails)) {
